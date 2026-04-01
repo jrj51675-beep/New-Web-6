@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invisible Crisis – The Hidden Problems of the World</title>
+    <style>
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           RESET & VARIABLES
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        :root {
+            --bg-color: #0A0A0A;
+            --text-color: #E0E0E0;
+            --accent-red: #FF4B4B; /* Danger */
+            --accent-blue: #4B9FFF; /* Hope */
+            --card-bg: #161616;
+            --nav-bg: rgba(10, 10, 10, 0.95);
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           NAVIGATION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           HERO SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #home {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        #home h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            animation: fadeInDown 1.5s ease;
+        }
+
+        #home p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #ccc;
+            animation: fadeInUp 1.5s ease;
+        }
+
+        .cta-btn {
+            padding: 1rem 2.5rem;
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(255, 75, 75, 0.4);
+        }
+
+        .cta-btn:hover {
+            background: #ff2222;
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 75, 75, 0.7);
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           GENERAL SECTION STYLES
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        section {
+            padding: 5rem 2rem;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-blue);
+            margin: 10px auto 0;
+        }
+
+        /* Scroll Reveal Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           POLLUTION SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #pollution .section-title::after { background: var(--accent-red); }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-color: var(--accent-red);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           MENTAL HEALTH SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #mental-health {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a2a3a 100%);
+        }
+
+        #mental-health .section-title::after { background: var(--accent-blue); }
+
+        .calm-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 15px;
+            max-width: 800px;
+            text-align: center;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .calm-box h3 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           DIGITAL ADDICTION SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #digital-addiction {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .digital-ui {
+            background: #000;
+            border: 2px solid var(--accent-blue);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(75, 159, 255, 0.2);
+            text-align: center;
+        }
+
+        .glow-text {
+            color: var(--accent-blue);
+            text-shadow: 0 0 10px var(--accent-blue);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .stat-bar {
+            background: #333;
+            height: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .stat-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            width: 0%;
+            transition: width 2s ease-in-out;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           CLIMATE CHANGE SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #climate {
+            background: radial-gradient(circle at center, #2a1a1a 0%, #0A0A0A 70%);
+        }
+
+        #climate .section-title {
+            color: var(--accent-red);
+            text-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 10px rgba(255, 75, 75, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 75, 75, 0.8); }
+            100% { text-shadow: 0 0 10px rgba(255, 75, 75, 0.5); }
+        }
+
+        .climate-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-box {
+            background: rgba(255, 75, 75, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--accent-red);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-box h4 { color: var(--accent-red); font-size: 2rem; }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           WATER SCARCITY SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #water {
+            background: #0d1117;
+            color: #8899a6;
+        }
+        
+        #water .section-title { color: #fff; }
+
+        .water-content {
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .water-content ul {
+            list-style: none;
+        }
+
+        .water-content li {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid #8899a6;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           QUIZ SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #quiz {
+            background: #111;
+        }
+
+        .quiz-container {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .option-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #333;
+            border-color: var(--accent-blue);
+        }
+
+        .option-btn.correct {
+            background: #2e7d32;
+            border-color: #4caf50;
+        }
+
+        .option-btn.wrong {
+            background: #c62828;
+            border-color: #ef5350;
+        }
+
+        .quiz-result {
+            text-align: center;
+            display: none;
+        }
+
+        .quiz-result h2 {
+            font-size: 3rem;
+            color: var(--accent-blue);
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           SOLUTIONS SECTION
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        #solutions .section-title::after { background: #4caf50; }
+
+        .solution-card {
+            background: linear-gradient(45deg, #1a1a1a, #222);
+            border-left: 5px solid #4caf50;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           FOOTER
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        footer {
+            background: #000;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           ANIMATIONS
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━
+           RESPONSIVE
+           ━━━━━━━━━━━━━━━━━━━━━━━ */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Can be enhanced with JS toggle */
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background: #000;
+                width: 100%;
+                padding: 1rem;
+                text-align: center;
+            }
+            
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            
+            #home h1 { font-size: 2.5rem; }
+            .options-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">Invisible Crisis</div>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#pollution">Pollution</a></li>
+            <li><a href="#mental-health">Mental Health</a></li>
+            <li><a href="#digital-addiction">Digital</a></li>
+            <li><a href="#climate">Climate</a></li>
+            <li><a href="#water">Water</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+        </ul>
+    </nav>
+
+    <!-- HOME SECTION -->
+    <section id="home">
+        <h1>The Biggest Problems<br>Are The Ones We Ignore</h1>
+        <p>Scroll to discover the hidden reality.</p>
+        <a href="#pollution" class="cta-btn">Explore Now</a>
+    </section>
+
+    <!-- POLLUTION SECTION -->
+    <section id="pollution">
+        <h2 class="section-title reveal">Pollution</h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <i class="fas fa-smog"></i>
+                <h3>Air Pollution</h3>
+                <p>Micro-particles entering our lungs, causing respiratory diseases and reducing life expectancy globally.</p>
+            </div>
+            <div class="card reveal">
+                <i class="fas fa-water"></i>
+                <h3>Water Pollution</h3>
+                <p>Industrial waste and chemicals contaminating our oceans, killing marine life and entering our food chain.</p>
+            </div>
+            <div class="card reveal">
+                <i class="fas fa-trash-alt"></i>
+                <h3>Plastic Waste</h3>
+                <p>Millions of tons of plastic end up in landfills and oceans every year, taking centuries to decompose.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENTAL HEALTH SECTION -->
+    <section id="mental-health">
+        <h2 class="section-title reveal">Mental Health</h2>
+        <div class="calm-box reveal">
+            <h3>It's Okay Not To Be Okay</h3>
+            <p>Mental health issues like stress, anxiety, and depression are invisible epidemics. They affect how we think, feel, and act. Recognizing the signs is the first step toward healing.</p>
+            <br>
+            <p style="font-style: italic; color: #8899a6;">"You are not your illness. You have an individual story to tell. You have a name, a history, a personality. Staying yourself is part of the battle."</p>
+        </div>
+    </section>
+
+    <!-- DIGITAL ADDICTION SECTION -->
+    <section id="digital-addiction">
+        <h2 class="section-title reveal">Digital Addiction</h2>
+        <div class="digital-ui reveal">
+            <h3 class="glow-text">SYSTEM STATUS: OVERLOADED</h3>
+            <p style="margin: 1rem 0;">Average Screen Time: 7 Hours/Day</p>
+            
+            <div style="text-align: left; margin-bottom: 5px;">Social Media</div>
+            <div class="stat-bar"><div class="stat-fill" style="width: 85%"></div></div>
+            
+            <div style="text-align: left; margin-bottom: 5px;">Sleep Impact</div>
+            <div class="stat-bar"><div class="stat-fill" style="width: 60%; background: #ff4b4b;"></div></div>
+            
+            <div style="text-align: left; margin-bottom: 5px;">Focus Loss</div>
+            <div class="stat-bar"><div class="stat-fill" style="width: 90%; background: #ff4b4b;"></div></div>
+            
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #666;">Disconnect to reconnect with reality.</p>
+        </div>
+    </section>
+
+    <!-- CLIMATE CHANGE SECTION -->
+    <section id="climate">
+        <h2 class="section-title reveal">Climate Change</h2>
+        <div class="climate-stats reveal">
+            <div class="stat-box">
+                <h4>+1.1°C</h4>
+                <p>Global Temp Rise</p>
+            </div>
+            <div class="stat-box">
+                <h4>3.4mm</h4>
+                <p>Sea Level Rise / Year</p>
+            </div>
+            <div class="stat-box">
+                <h4>415ppm</h4>
+                <p>CO2 Concentration</p>
+            </div>
+        </div>
+        <p style="margin-top: 2rem; max-width: 600px; text-align: center;">
+            The planet is heating up. Glaciers are melting, weather patterns are becoming extreme, and ecosystems are collapsing.
+        </p>
+    </section>
+
+    <!-- WATER SCARCITY SECTION -->
+    <section id="water">
+        <h2 class="section-title reveal">Water Scarcity</h2>
+        <div class="water-content reveal">
+            <p>Water is life, yet it is running out. 2.2 billion people lack access to safe drinking water.</p>
+            <br>
+            <ul>
+                <li><strong>Drought:</strong> Crops failing, leading to famine and migration.</li>
+                <li><strong>Conflict:</strong> Wars fought over access to rivers and aquifers.</li>
+                <li><strong>Sanitation:</strong> Lack of clean water leads to preventable diseases.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- QUIZ SECTION -->
+    <section id="quiz">
+        <h2 class="section-title reveal">How Aware Are You?</h2>
+        
+        <div class="quiz-container reveal" id="quiz-box">
+            <div class="quiz-header">
+                <span id="question-count">Question 1/10</span>
+                <span id="score-display">Score: 0</span>
+            </div>
+            
+            <h3 id="question-text" style="margin-bottom: 1.5rem;">Loading...</h3>
+            
+            <div class="options-grid" id="options-container">
+                <!-- Options injected via JS -->
+            </div>
+        </div>
+
+        <div class="quiz-container reveal quiz-result" id="result-box">
+            <h2 id="final-score">0/10</h2>
+            <p id="result-message">Message</p>
+            <button class="cta-btn" onclick="restartQuiz()" style="margin-top: 2rem;">Restart Quiz</button>
+        </div>
+    </section>
+
+    <!-- SOLUTIONS SECTION -->
+    <section id="solutions">
+        <h2 class="section-title reveal">Solutions</h2>
+        <div class="grid-container">
+            <div class="solution-card reveal">
+                <h3>💧 Save Water</h3>
+                <p>Turn off taps while brushing, fix leaks immediately, and use water-efficient appliances.</p>
+            </div>
+            <div class="solution-card reveal">
+                <h3>🛑 Reduce Plastic</h3>
+                <p>Use reusable bags, bottles, and containers. Say no to single-use straws and cutlery.</p>
+            </div>
+            <div class="solution-card reveal">
+                <h3>🧠 Mental Awareness</h3>
+                <p>Practice mindfulness, talk openly about feelings, and limit social media consumption.</p>
+            </div>
+            <div class="solution-card reveal">
+                <h3>📵 Digital Detox</h3>
+                <p>Set screen time limits, have phone-free zones (like the bedroom), and engage in outdoor hobbies.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Invisible Crisis. Designed for Awareness.</p>
+    </footer>
+
+    <script>
+        // ━━━━━━━━━━━━━━━━━━━━━━━
+        // NAVIGATION TOGGLE
+        // ━━━━━━━━━━━━━━━━━━━━━━━
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━
+        // SCROLL REVEAL ANIMATION
+        // ━━━━━━━━━━━━━━━━━━━━━━━
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        // Trigger once on load
+        reveal();
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━
+        // QUIZ LOGIC
+        // ━━━━━━━━━━━━━━━━━━━━━━━
+        const questions = [
+            {
+                q: "What is the main cause of air pollution?",
+                options: ["Trees", "Factories", "Rain", "Soil"],
+                answer: 1 // Index of correct answer
+            },
+            {
+                q: "What affects mental health the most?",
+                options: ["Sleep", "Stress", "Food", "Music"],
+                answer: 1
+            },
+            {
+                q: "What is digital addiction?",
+                options: ["Reading books", "Excessive phone use", "Playing sports", "Studying"],
+                answer: 1
+            },
+            {
+                q: "What causes climate change?",
+                options: ["Plastic", "Global warming gases", "Water", "Soil"],
+                answer: 1
+            },
+            {
+                q: "What happens due to melting glaciers?",
+                options: ["Cold weather", "Rising sea levels", "Less rain", "More trees"],
+                answer: 1
+            },
+            {
+                q: "What is water scarcity?",
+                options: ["Too much water", "Lack of clean water", "Ocean rise", "Flood"],
+                answer: 1
+            },
+            {
+                q: "What affects sleep negatively?",
+                options: ["Exercise", "Mobile usage at night", "Water", "Reading"],
+                answer: 1
+            },
+            {
+                q: "What is one solution to pollution?",
+                options: ["Burning plastic", "Recycling", "Cutting trees", "Ignoring waste"],
+                answer: 1
+            },
+            {
+                q: "What helps mental health?",
+                options: ["Stress", "Talking to others", "Isolation", "Overthinking"],
+                answer: 1
+            },
+            {
+                q: "What can save water?",
+                options: ["Leaving tap open", "Fixing leaks", "Wasting water", "Ignoring usage"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let canClick = true;
+
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const questionCount = document.getElementById('question-count');
+        const scoreDisplay = document.getElementById('score-display');
+        const quizBox = document.getElementById('quiz-box');
+        const resultBox = document.getElementById('result-box');
+        const finalScore = document.getElementById('final-score');
+        const resultMessage = document.getElementById('result-message');
+
+        function loadQuestion() {
+            canClick = true;
+            const currentQ = questions[currentQuestionIndex];
+            questionText.innerText = currentQ.q;
+            questionCount.innerText = `Question ${currentQuestionIndex + 1}/${questions.length}`;
+            
+            optionsContainer.innerHTML = '';
+            
+            currentQ.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.classList.add('option-btn');
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (!canClick) return;
+            canClick = false;
+
+            const correctIndex = questions[currentQuestionIndex].answer;
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+
+            if (selectedIndex === correctIndex) {
+                btnElement.classList.add('correct');
+                score++;
+                scoreDisplay.innerText = `Score: ${score}`;
+            } else {
+                btnElement.classList.add('wrong');
+                // Highlight the correct one
+                buttons[correctIndex].classList.add('correct');
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1500);
+        }
+
+        function showResult() {
+            quizBox.style.display = 'none';
+            resultBox.style.display = 'block';
+            finalScore.innerText = `${score} / 10`;
+
+            if (score === 10) {
+                resultMessage.innerText = "Perfect! You are a true change-maker.";
+            } else if (score >= 7) {
+                resultMessage.innerText = "Great job! You are very aware.";
+            } else if (score >= 4) {
+                resultMessage.innerText = "Not bad, but there's room to learn.";
+            } else {
+                resultMessage.innerText = "Time to educate yourself on these issues.";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreDisplay.innerText = `Score: 0`;
+            quizBox.style.display = 'block';
+            resultBox.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Initialize Quiz
+        loadQuestion();
+
+    </script>
+</body>
+</html>
